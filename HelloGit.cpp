@@ -4,11 +4,22 @@
 #include "pch.h"
 #include <iostream>
 
+void testStack(int x, int y);
+
 int main()
 {
-    std::cout << "Hello World!\n"; 
-	std::cout << "Hello World 2 Jessada Satirasompopkul\n";
-	std::cout << "Hello World 3 Jay\n";
+	int x = 5;
+	int y = 10;
+
+	testStack(x, y);
+}
+
+void testStack(int x, int y) {
+	int a = 1;
+	int b = 2;
+
+	printf("&x=%p &y=%p\n", &x, &y);
+	printf("&a=%p &b=%p\n", &a, &b);
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
