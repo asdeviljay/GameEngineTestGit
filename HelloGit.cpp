@@ -4,22 +4,32 @@
 #include "pch.h"
 #include <iostream>
 
-void testStack(int x, int y);
-
 int main()
 {
-	int x = 5;
-	int y = 10;
+	const unsigned int A_SIZE = 10;
+	int a[A_SIZE] = { -1, 1, -1, 1, -1, 1, -1, 1, -1, 1 };
 
-	testStack(x, y);
-}
+	int *p_start = a;
+	int *p_cursor = p_start;
+	int *p_end = a + A_SIZE;
 
-void testStack(int x, int y) {
-	int a = 1;
-	int b = 2;
+	int sum = 0;
+	float avg = 0;
+	int min = INT_MAX;
+	int max = INT_MIN;
 
-	printf("&x=%p &y=%p\n", &x, &y);
-	printf("&a=%p &b=%p\n", &a, &b);
+	while (p_cursor < p_end) {
+		min = (min > *p_cursor) ? *p_cursor : min;
+		max = (max < *p_cursor) ? *p_cursor : max;
+		sum += *p_cursor;
+		p_cursor += 1;
+	}
+	avg = static_cast<float>(sum) / static_cast<float>(A_SIZE);
+
+	std::cout << "Sum = " << sum << std::endl;
+	std::cout << "Average = " << avg << std::endl;
+	std::cout << "Minimum = " << min << std::endl;
+	std::cout << "Maximum = " << max << std::endl;
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
