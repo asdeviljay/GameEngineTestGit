@@ -2,34 +2,53 @@
 //
 
 #include "pch.h"
+#include "SpaceStation.hpp"
+#include "Robot.hpp"
 #include <iostream>
+#include <string>
+#include <memory>
+#include <crtdbg.h>
+
+#define _CRTDBG_MAP_ALLOC
+
+using namespace std;
+
+/*class Robot {
+private :
+	string m_robotName;
+
+public :
+
+	Robot()
+		: m_robotName("No Name Robot")
+	{
+	}
+
+};*/
+
+/*class SpaceStation {
+private :
+	shared_ptr<Robot> m_robot = make_shared<Robot>();
+
+public :
+
+	void
+};*/
 
 int main()
 {
-	const unsigned int A_SIZE = 10;
-	int a[A_SIZE] = { -1, 1, -1, 1, -1, 1, -1, 1, -1, 1 };
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
-	int *p_start = a;
-	int *p_cursor = p_start;
-	int *p_end = a + A_SIZE;
+	/*SpaceStation *spaceStation = new SpaceStation();
+	spaceStation->statusReport();
+	delete(spaceStation);*/
 
-	int sum = 0;
-	float avg = 0;
-	int min = INT_MAX;
-	int max = INT_MIN;
+	shared_ptr< SpaceStation> spaceStation = make_shared<SpaceStation>();
+	spaceStation->statusReport();
 
-	while (p_cursor < p_end) {
-		min = (min > *p_cursor) ? *p_cursor : min;
-		max = (max < *p_cursor) ? *p_cursor : max;
-		sum += *p_cursor;
-		p_cursor += 1;
-	}
-	avg = static_cast<float>(sum) / static_cast<float>(A_SIZE);
+	/*shared_ptr<Robot> robot = make_shared<Robot>();
+	robot->askInfoFromSpaceStation();*/
 
-	std::cout << "Sum = " << sum << std::endl;
-	std::cout << "Average = " << avg << std::endl;
-	std::cout << "Minimum = " << min << std::endl;
-	std::cout << "Maximum = " << max << std::endl;
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
