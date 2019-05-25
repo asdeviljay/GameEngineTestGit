@@ -4,47 +4,17 @@
 #define _CRTDBG_MAP_ALLOC  
 
 #include "pch.h"
+#include "MyMemoryPool.hpp"
 #include <iostream>
-#include <chrono>
-
-using milli = std::chrono::milliseconds;
-
-const int g_n = 500;
-float TestData[g_n][g_n][g_n];
-
-void cloumn_ordered() {
-	for (int k = 0; k < g_n; k++)
-		for (int j = 0; j < g_n; j++)
-			for (int i = 0; i < g_n; i++)
-				TestData[i][j][k] = 0.0f;
-}
-
-void row_ordered() {
-	for (int i = 0; i < g_n; i++)
-		for (int j = 0; j < g_n; j++)
-			for (int k = 0; k < g_n; k++)
-				TestData[i][j][k] = 0.0f;
-}
 
 int main()
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
-	std::chrono::high_resolution_clock::time_point start, end;
+	MyMemoryPool p;
+	p.init(sizeof(int), 2);
 
-	start = std::chrono::high_resolution_clock::now();
-	//cloumn_ordered();
-	end = std::chrono::high_resolution_clock::now();
-
-	std::cout << "Call cloumn_ordered Function : " << std::chrono::duration_cast<milli>(end - start).count() << " millisecs";
-
-	std::cout << std::endl;
-
-	start = std::chrono::high_resolution_clock::now();
-	//row_ordered();
-	end = std::chrono::high_resolution_clock::now();
-
-	std::cout << "Call row_ordered Function : " << std::chrono::duration_cast<milli>(end - start).count() << " millisecs";
+	
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
