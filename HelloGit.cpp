@@ -1,54 +1,100 @@
 // HelloGit.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
+#define _CRTDBG_MAP_ALLOC  
+
 #include "pch.h"
-#include "SpaceStation.hpp"
-#include "Robot.hpp"
 #include <iostream>
-#include <string>
-#include <memory>
-#include <crtdbg.h>
+#include <vector>
 
-#define _CRTDBG_MAP_ALLOC
-
-using namespace std;
-
-/*class Robot {
-private :
-	string m_robotName;
-
-public :
-
-	Robot()
-		: m_robotName("No Name Robot")
+class Item {
+public:
+	int m_id;
+	explicit Item(int t_id) : m_id(t_id)
 	{
 	}
+	~Item()
+	{
 
-};*/
+	}
+};
 
-/*class SpaceStation {
-private :
-	shared_ptr<Robot> m_robot = make_shared<Robot>();
+class Monster {
+public:
+	std::vector<Item*> m_items;
 
-public :
+public:
+	Monster()
+	{
+	}
+	Monster(const Monster& t_monster)
+	{
+		std::vector<Item*> temp;
+		for (int i = 0; i < t_monster.m_items.size(); i++) {
+			int id = t_monster.m_items[i]->m_id;
+			temp.push_back(new Item(id));
+		}
+		m_items = temp;
+	}
+	~Monster()
+	{
+		for (auto it = m_items.begin(); it != m_items.end(); ++it) {
+			delete(*it);
+		}
+	}
 
-	void
-};*/
+	Monster& operator= (const Monster& t_monster) {
+		std::vector<Item*> temp;
+		for (int i = 0; i < t_monster.m_items.size(); i++) {
+			int id = t_monster.m_items[i]->m_id;
+			temp.push_back(new Item(id));
+		}
+		m_items = temp;
+		return *this;
+	}
+
+	void printAllItems() const {
+		for (auto it = m_items.begin(); it != m_items.end(); ++it) {
+			std::cout << (*it)->m_id << " ";
+		}
+		std::cout << std::endl;
+	}
+};
+
+void printItems(const Monster& t_monster) {
+	for (int i = 0; i < t_monster.m_items.size(); i++) {
+		std::cout << t_monster.m_items[i]->m_id << " ";
+	}
+	std::cout << std::endl;
+}
+
+void printItem(Item i) {
+	std::cout << i.m_id << std::endl;
+}
 
 int main()
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
-	/*SpaceStation *spaceStation = new SpaceStation();
-	spaceStation->statusReport();
-	delete(spaceStation);*/
+	//printItem(60);
 
-	shared_ptr< SpaceStation> spaceStation = make_shared<SpaceStation>();
-	spaceStation->statusReport();
+	Monster m1;
+	for (int i = 0; i < 5; i++) {
+		m1.m_items.push_back(new Item(i));
+	}
 
-	/*shared_ptr<Robot> robot = make_shared<Robot>();
-	robot->askInfoFromSpaceStation();*/
+	Monster m2;
+	m2 = m1;
+	std::cout << "Monster 1 : ";
+	m1.printAllItems();
 
+	m1.m_items[0]->m_id = 90;
+
+	std::cout << "New Monster 1 : ";
+	printItems(m1);
+
+	std::cout << "Monster 2 : ";
+	printItems(m2);
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
