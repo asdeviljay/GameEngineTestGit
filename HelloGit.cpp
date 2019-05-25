@@ -5,96 +5,46 @@
 
 #include "pch.h"
 #include <iostream>
-#include <vector>
+#include <chrono>
 
-class Item {
-public:
-	int m_id;
-	explicit Item(int t_id) : m_id(t_id)
-	{
-	}
-	~Item()
-	{
+using milli = std::chrono::milliseconds;
 
-	}
-};
+const int g_n = 500;
+float TestData[g_n][g_n][g_n];
 
-class Monster {
-public:
-	std::vector<Item*> m_items;
-
-public:
-	Monster()
-	{
-	}
-	Monster(const Monster& t_monster)
-	{
-		std::vector<Item*> temp;
-		for (int i = 0; i < t_monster.m_items.size(); i++) {
-			int id = t_monster.m_items[i]->m_id;
-			temp.push_back(new Item(id));
-		}
-		m_items = temp;
-	}
-	~Monster()
-	{
-		for (auto it = m_items.begin(); it != m_items.end(); ++it) {
-			delete(*it);
-		}
-	}
-
-	Monster& operator= (const Monster& t_monster) {
-		std::vector<Item*> temp;
-		for (int i = 0; i < t_monster.m_items.size(); i++) {
-			int id = t_monster.m_items[i]->m_id;
-			temp.push_back(new Item(id));
-		}
-		m_items = temp;
-		return *this;
-	}
-
-	void printAllItems() const {
-		for (auto it = m_items.begin(); it != m_items.end(); ++it) {
-			std::cout << (*it)->m_id << " ";
-		}
-		std::cout << std::endl;
-	}
-};
-
-void printItems(const Monster& t_monster) {
-	for (int i = 0; i < t_monster.m_items.size(); i++) {
-		std::cout << t_monster.m_items[i]->m_id << " ";
-	}
-	std::cout << std::endl;
+void cloumn_ordered() {
+	for (int k = 0; k < g_n; k++)
+		for (int j = 0; j < g_n; j++)
+			for (int i = 0; i < g_n; i++)
+				TestData[i][j][k] = 0.0f;
 }
 
-void printItem(Item i) {
-	std::cout << i.m_id << std::endl;
+void row_ordered() {
+	for (int i = 0; i < g_n; i++)
+		for (int j = 0; j < g_n; j++)
+			for (int k = 0; k < g_n; k++)
+				TestData[i][j][k] = 0.0f;
 }
 
 int main()
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
-	//printItem(60);
+	std::chrono::high_resolution_clock::time_point start, end;
 
-	Monster m1;
-	for (int i = 0; i < 5; i++) {
-		m1.m_items.push_back(new Item(i));
-	}
+	start = std::chrono::high_resolution_clock::now();
+	//cloumn_ordered();
+	end = std::chrono::high_resolution_clock::now();
 
-	Monster m2;
-	m2 = m1;
-	std::cout << "Monster 1 : ";
-	m1.printAllItems();
+	std::cout << "Call cloumn_ordered Function : " << std::chrono::duration_cast<milli>(end - start).count() << " millisecs";
 
-	m1.m_items[0]->m_id = 90;
+	std::cout << std::endl;
 
-	std::cout << "New Monster 1 : ";
-	printItems(m1);
+	start = std::chrono::high_resolution_clock::now();
+	//row_ordered();
+	end = std::chrono::high_resolution_clock::now();
 
-	std::cout << "Monster 2 : ";
-	printItems(m2);
+	std::cout << "Call row_ordered Function : " << std::chrono::duration_cast<milli>(end - start).count() << " millisecs";
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
