@@ -151,12 +151,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CWStd.hpp" />
+    <ClInclude Include="CWUTest.hpp" />
     <ClInclude Include="MyMemoryPool.hpp" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Robot.hpp" />
     <ClInclude Include="SpaceStation.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CWUTest.cpp" />
     <ClCompile Include="HelloGit.cpp" />
     <ClCompile Include="MyMemoryPool.cpp" />
     <ClCompile Include="pch.cpp">
